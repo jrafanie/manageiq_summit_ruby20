@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My Awesome Presentation</title>
+    <title>Ruby 2.x</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style type="text/css">
       @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
@@ -20,21 +20,93 @@
     <textarea id="source">
 
 class: center, middle
-
-# My Awesome Presentation
+# Ruby 2.x stuff
 
 ---
-
 # Agenda
 
-1. Introduction
-2. Deep-dive
-3. ...
+1. Ruby 2.0 features
+2. Ruby 2.0 breaking changes
+3. Ruby 2.1 features
+4. Ruby 2.1 breaking changes
+5. References
 
-[NOTE]: This file is portable; you don't need any other file, or an internet connection for this presentation.
 ---
+class: center, middle
+# Ruby 2.0 features
 
-# Introduction
+---
+# Keyword arguments
+
+---
+# Module#prepend
+
+Often, we'll log the beginning and completion of an operation.
+No more alias_method_chain!
+
+---
+### Module#prepend
+
+```ruby
+class SomeClass
+  def slow_operation
+    puts "doing something slow...."
+  end
+end
+
+module SomeClassBookend
+  def slow_operation
+    puts "#{__method__} starting..."
+    super
+    puts "#{__method__} completed"
+  end
+end
+
+class SomeClass
+  prepend SomeClassBookend
+end
+
+SomeClass.new.slow_operation
+```
+
+```
+slow_operation starting...
+doing something slow....
+slow_operation completed
+```
+
+---
+class: center, middle
+# Ruby 2.0 breaking changes
+
+---
+## Objects don't respond_to? to protected methods
+
+```ruby
+class SomeClass
+  protected
+
+  def _run
+  end
+end
+```
+
+```ruby
+puts SomeClass.new.respond_to?(:_run)
+1.9.3 => false
+2.0.0 => true
+```
+
+Pass true as a second argument to have ruby 1.9.3 like behavior:
+```ruby
+puts SomeClass.new.respond_to?(:_run, true)
+1.9.3 => true
+2.0.0 => true
+```
+
+---
+## Ruby source files are encoded as UTF-8 by default
+
 
     </textarea>
     <script type="text/javascript">
