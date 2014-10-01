@@ -399,6 +399,24 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 
 ### Solutions:
 
+* Use String#b on individual strings
+
+  * **Not** compatible with ruby 1.9.3
+
+  * Returns a **copy** of the String in ASCII-8BIT encoding
+
+  * Note: String#force_encoding("ASCII-8BIT") modifies the encoding of the receiver
+
+--
+
+* Add String#b method "extension" to ruby 1.9.3 to "bridge" us to 2.0.0
+
+---
+
+## Ruby source files are encoded as UTF-8 by default
+
+### Solutions:
+
 * Add #encoding magic comment to the top of the script
 
   * 1.9.3/2.0.0 compatible
@@ -421,24 +439,6 @@ irb(main):001:0> require './test'
 irb(main):002:0> FOO.encoding
 => #<Encoding:ASCII-8BIT>
 ```
-
----
-
-## Ruby source files are encoded as UTF-8 by default
-
-### Solutions:
-
-* Use String#b
-  * **Not** compatible with ruby 1.9.3
-
-  * Returns a **copy** of the String in ASCII-8BIT encoding
-
-  * Note: String#force_encoding("ASCII-8BIT") modifies the encoding of the receiver
-
---
-
-* Add String#b method for ruby 1.9.3 to "bridge" us
-
 
 ---
 
@@ -490,8 +490,53 @@ irb(main):002:0> FOO.encoding
 
 * See Pull #714
 
+---
+
+## Building 2.0 appliances
+
+* Our current community appliances use ruby 1.9.3 through SCL rpms
+
+  * Not multi-platform
+
+  * Restricts updating of bundler, thin, and a few other gems since we need them from rpms
 
 
+---
+
+## Building 2.0 appliances
+
+### Solution
+
+* rpms for base OS CentOS + those required to build ruby and compiled gems
+
+  * libxml2-devel, libxslt-devel, etc.
+
+--
+
+* Install ruby-install or ruby-build for building and rebuilding ruby
+
+  * https://github.com/postmodern/ruby-install
+
+  * https://github.com/sstephenson/ruby-build
+
+--
+
+* Let bundler handle dependency resolution and installing gems
+
+
+---
+
+## Developer setup
+
+* If you can install ruby 1.9.3, 2.0.0 is not much different
+
+* Developers use rvm, ruby-install, ruby-build to install rubies
+
+* Developers use rvm, rbenv, or chruby to manage their rubies
+
+* We need guinea pigs to do it and document the process
+
+* Some developers may use rubymine, so we'll need to verify that process
 
 
 
