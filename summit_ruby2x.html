@@ -14,26 +14,61 @@
         font-weight: normal;
       }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+
     </style>
   </head>
   <body onload="var slideshow = remark.create();">
     <textarea id="source">
-
 class: center, middle
-# Ruby 2.x stuff
+# Upgrading to Ruby 2.x
 
 ---
 # Agenda
 
+1. Why upgrade?
+
 1. Ruby 2.0 features
-2. Ruby 2.0 breaking changes
-3. Ruby 2.1 features
-4. Ruby 2.1 breaking changes
-5. References
+
+1. Ruby 2.0 breaking changes and deprecations
+
+1. Building 2.0 appliances
+
+1. Developer setup
+
+1. References
 
 ---
-class: center, middle
+# Why upgrade?
+
+--
+
+* We're behind!!!
+
+  - Support for Ruby 1.9.3 will end on February 23, 2015
+
+  - Ruby 2.0.0 was released nearly 20 months ago
+
+  - Ruby 2.1.0 was released nearly 10 months ago
+
+  - Ruby 2.1.3 was just released on September 19
+
+  - Ruby 2.2.0 is scheduled for a Christmas release
+
+---
+class: left, top
 # Ruby 2.0 features
+
+### Keyword arguments
+
+### Module#prepend
+
+### Array of symbols: %i and %I
+
+### Refinements
+
+### Enumerable#lazy
+
+### Faster Rails startup
 
 ---
 # Keyword arguments
@@ -45,7 +80,7 @@ Often, we'll log the beginning and completion of an operation.
 No more alias_method_chain!
 
 ---
-### Module#prepend
+# Module#prepend
 
 ```ruby
 class SomeClass
@@ -76,14 +111,137 @@ slow_operation completed
 ```
 
 ---
-class: center, middle
-# Ruby 2.0 breaking changes
+# Array of symbols: %i and %I
+
+--
+
+```ruby
+irb(main):001:0> %i{vmware redhat microsoft}
+=> [:vmware, :redhat, :microsoft]
+```
+
+--
+
+* %I allows interpolation:
+
+--
+
+```ruby
+irb(main):002:0> prefix = :vm_
+=> :vm_
+
+irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
+=> [:vm_vmware, :vm_redhat, :vm_microsoft]
+```
+
+
+
+---
+# Refinements
+
+* A mechanism to localizing monkey patches so they don't infect other libraries
+
+* I'm not going to explain them because:
+  * They have so many gotchas...
+
+  * Freedom patching is good... as long as you have tests
+
+  * Charles Nutter(@headius/jruby guy) does it better:
+    http://blog.headius.com/2012/11/refining-ruby.html
+
+---
+# Enumerable#lazy
+
+* Normally enumerable methods are eager and evaluate left to right:
+
+--
+
+```ruby
+[1,2,3].sort.reverse.last => 1
+```
+
+--
+
+* Sort will create an array
+
+* Reverse will create another array
+
+---
+# Enumerable#lazy
+
+* With lazy, chains of enumerations are evaluated right to left
+
+--
+
+```ruby
+[1,2,3].lazy.sort.reverse.last => 1
+```
+
+* It won't create intermediate arrays
+
+* See http://patshaughnessy.net/2013/4/3/ruby-2-0-works-hard-so-you-can-be-lazy
+
+---
+
+# Faster Rails startup
+
+* Optimizations were made to speed up 'require'
+
+--
+
+  ```
+  (master) (1.9.3-p545) + time bundle exec rake environment
+  bundle exec rake environment  3.51s user 0.63s system 99% cpu 4.148 total
+  ```
+
+  ```
+  (master) (2.0.0-p576) + time bundle exec rake environment
+  bundle exec rake environment  2.60s user 0.53s system 99% cpu 3.132 total
+
+  ```
+--
+
+* 25% faster loading of rails environment!*
+
+--
+
+* Developers will notice this when running tests
+
+* This should improve worker startup on appliances
+
+
+---
+class: left, top
+## Ruby 2.0 breaking changes and deprecations
+
+* Objects don't respond_to? to protected methods
+
+* UTF-8 is now the default character encoding of ruby scripts
+
+* All descriptors except 0, 1, 2 are closed in child processes
+
+* StringIO#lines is deprecated
+
+---
+## Objects don't respond_to? to protected methods
+
+* Ruby 1.9.3:
+  * respond_to?(symbol) => public and protected methods
+
+  * respond_to?(symbol, true) => all methods
+
+--
+
+* Ruby 2.0.0
+  * respond_to?(symbol) => public methods only
+
+  * respond_to?(symbol, true) => all methods
 
 ---
 ## Objects don't respond_to? to protected methods
 
 ```ruby
-class SomeClass
+class Worker
   protected
 
   def _run
@@ -91,22 +249,255 @@ class SomeClass
 end
 ```
 
+--
 ```ruby
-puts SomeClass.new.respond_to?(:_run)
+Worker.new.respond_to?(:_run)
 1.9.3 => false
 2.0.0 => true
 ```
 
-Pass true as a second argument to have ruby 1.9.3 like behavior:
+--
+Pass true as a second argument to include protected methods
 ```ruby
-puts SomeClass.new.respond_to?(:_run, true)
+Worker.new.respond_to?(:_run, true)
 1.9.3 => true
 2.0.0 => true
+```
+
+--
+
+* See Pull #685 - default_value_for gem
+
+---
+## Ruby source files are encoded as UTF-8 by default
+
+  ```
+  # cat test.rb
+  FOO = "\222dL\256"
+  ```
+
+--
+
+### Ruby 1.9.3
+
+* US-ASCII is the default encoding of ruby scripts
+
+--
+
+* Binary string literals become ASCII-8BIT:
+
+--
+
+```ruby
+irb(main):001:0> require './test'
+=> true
+irb(main):002:0> FOO.encoding
+=> #<Encoding:ASCII-8BIT>
+irb(main):003:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
+=> true
 ```
 
 ---
 ## Ruby source files are encoded as UTF-8 by default
 
+  ```
+  # cat test.rb
+  FOO = "\222dL\256"
+  ```
+
+--
+
+### Ruby 2.0.0
+
+* UTF-8 is the default encoding
+
+--
+
+* Binary string literals become UTF-8 even if it's invalid:
+
+```ruby
+irb(main):001:0> require './test'
+=> true
+irb(main):002:0> FOO.encoding
+=> #<Encoding:UTF-8>
+irb(main):003:0> FOO.valid_encoding?
+=> false
+irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
+=> false
+```
+
+---
+
+## Ruby source files are encoded as UTF-8 by default
+
+* What's the problem?
+
+  * We have many binary literal strings as constants for bytes for headers and other data elements
+
+  * The vm "fleecing" code is a big source of binary literal strings
+
+  * Who knows what will happen in your code if you start appending binary strings to copies of UTF-8 strings...
+
+  * Comparisons of these constants will fail if the binary string was converted to in invalid UTF-8 encoding:
+
+--
+
+```ruby
+irb(main):001:0> require './test'
+=> true
+irb(main):002:0> FOO.encoding
+=> #<Encoding:UTF-8>
+irb(main):003:0> FOO.valid_encoding?
+=> false
+irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
+=> false
+```
+
+
+
+
+
+
+---
+## Ruby source files are encoded as UTF-8 by default
+
+### Solutions:
+
+* Force binary on individual Strings:
+
+  * 1.9.3/2.0.0 compatible
+
+  * But, painful to do this on all binary strings
+
+--
+
+```ruby
+# cat test.rb
+FOO = "\222dL\256".force_encoding("ASCII-8BIT")
+```
+
+--
+
+```ruby
+irb(main):001:0> require './test'
+=> true
+irb(main):002:0> FOO.encoding
+=> #<Encoding:ASCII-8BIT>
+irb(main):003:0> FOO.valid_encoding?
+=> true
+irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
+=> true
+```
+
+---
+
+## Ruby source files are encoded as UTF-8 by default
+
+### Solutions:
+
+* Add #encoding magic comment to the top of the script
+
+  * 1.9.3/2.0.0 compatible
+
+  * Good option for scripts where binary strings are used as CONSTANTS
+
+--
+
+```ruby
+# cat test.rb
+# encoding: US-ASCII
+FOO = "\222dL\256"
+```
+
+--
+
+```ruby
+irb(main):001:0> require './test'
+=> true
+irb(main):002:0> FOO.encoding
+=> #<Encoding:ASCII-8BIT>
+```
+
+---
+
+## Ruby source files are encoded as UTF-8 by default
+
+### Solutions:
+
+* Use String#b
+  * **Not** compatible with ruby 1.9.3
+
+  * Returns a **copy** of the String in ASCII-8BIT encoding
+
+  * Note: String#force_encoding("ASCII-8BIT") modifies the encoding of the receiver
+
+--
+
+* Add String#b method for ruby 1.9.3 to "bridge" us
+
+
+---
+
+## All descriptors except 0, 1, 2 are closed in child processes
+
+* Prevents file descriptor leakage
+
+* See Pull #682, Issue #459, and https://bugs.ruby-lang.org/issues/5041
+
+--
+
+* For vddk vm scanning, we need a pipe to communite the DRb server's URI
+
+--
+
+* Use IO#close_on_exec = false
+
+--
+
+```diff
+     reader, writer = IO.pipe
+     writerfd = writer.fileno
+     my_env["WRITER_FD"] = writerfd.to_s
++
++    writer.close_on_exec = false
++
+     pid = Kernel.spawn(my_env, "ruby #{SERVER_PATH}VixDiskLibServer.rb",
+                        [:out, :err]     => [LOG_FILE, "a"],
+                        :unsetenv_others => true,
+```
+
+---
+
+# StringIO#lines is deprecated
+
+* Use #each_line instead:
+
+--
+
+```diff
+           @log_stream.rewind
+-          lines = @log_stream.lines.to_a
++          lines = @log_stream.each_line.to_a
+           lines.length.should == 1
+           line = lines.first.chomp
+```
+
+--
+
+* See Pull #714
+
+
+
+
+
+
+
+---
+# References
+
+http://globaldev.co.uk/2013/03/ruby-2-0-0-in-detail/
+
+http://globaldev.co.uk/2014/05/ruby-2-1-in-detail/
 
     </textarea>
     <script type="text/javascript">
