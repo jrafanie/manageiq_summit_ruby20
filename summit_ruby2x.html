@@ -139,7 +139,7 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 ---
 # Refinements
 
-* A mechanism to localizing monkey patches so they don't infect other libraries
+* A mechanism to localize monkey patches so they don't infect other libraries
 
 * I'm not going to explain them because:
   * They have so many gotchas...
@@ -178,6 +178,10 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 ```
 
 * It won't create intermediate arrays
+
+--
+
+* Expensive operations in a loop could be "short-circuited" using lazy
 
 * See http://patshaughnessy.net/2013/4/3/ruby-2-0-works-hard-so-you-can-be-lazy
 
