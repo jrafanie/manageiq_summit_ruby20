@@ -425,7 +425,7 @@ class: left, top
 
 * All descriptors except 0, 1, 2 are closed in child processes
 
-* StringIO#lines is deprecated
+* String#lines returns an array
 
 ---
 ## Objects don't respond_to? to protected methods
@@ -666,7 +666,13 @@ irb(main):002:0> FOO.encoding
 
 ---
 
-# StringIO#lines is deprecated
+# String#lines returns an array
+
+* Also String#chars, #bytes and #codepoints
+
+* Previously, they returned enumerators
+
+* Above methods are deprecated for StringIO, IO and friends
 
 * Use #each_line instead:
 
