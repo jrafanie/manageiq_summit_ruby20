@@ -134,13 +134,11 @@ end
 ]
 
 --
-
 .pull-right-wide[
 Sub is a class with the buggy run method...
 ]
 
 --
-
 .pull-right-wide[
 
 ```ruby
@@ -153,7 +151,6 @@ Parent
 ]
 
 --
-
 .pull-right-wide[
 ```ruby
 irb(main):002:0> Sub.ancestors
@@ -164,8 +161,7 @@ irb(main):002:0> Sub.ancestors
 
 --
 .pull-right-wide[
-## UGH!!!
-We want run from DebugIt to be called first!
+## UGH, we want DebugIt's first!
 ]
 
 
@@ -221,7 +217,7 @@ Parent
 --
 
 .pull-right-wide[
-## YAY! But that's really nasty!
+## YAY! But that's really dirty!
 ]
 
 
@@ -285,8 +281,6 @@ irb(main):002:0> Sub.ancestors
 ]
 
 
-
-
 ---
 # Array of symbols: %i and %I
 
@@ -310,7 +304,6 @@ irb(main):002:0> prefix = :vm_
 irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 => [:vm_vmware, :vm_redhat, :vm_microsoft]
 ```
-
 
 
 ---
