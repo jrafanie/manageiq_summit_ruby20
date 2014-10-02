@@ -15,6 +15,18 @@
       }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
 
+      .pull-left-narrow {
+        float: left;
+        width: 35%;
+      }
+      .pull-right-wide {
+        float: right;
+        width: 59%;
+      }
+      .pull-right-wide ~ p {
+        clear: both;
+      }
+
     </style>
   </head>
   <body onload="var slideshow = remark.create();">
@@ -76,39 +88,196 @@ class: left, top
 ---
 # Module#prepend
 
-Often, we'll log the beginning and completion of an operation.
-No more alias_method_chain!
+### Problem: We want to debug a slow or buggy method.
+
+--
+
+* Let's inject a DebugIt module method so OUR method gets called first!
 
 ---
 # Module#prepend
 
+#### Using `include`:
+
+.pull-left-narrow[
 ```ruby
-class SomeClass
-  def slow_operation
-    puts "doing something slow...."
-  end
-end
-
-module SomeClassBookend
-  def slow_operation
-    puts "#{__method__} starting..."
+module DebugIt
+  def run
+    puts "DebugIt"
     super
-    puts "#{__method__} completed"
   end
 end
 
-class SomeClass
-  prepend SomeClassBookend
+class Parent
+  def run
+    puts "Parent"
+  end
 end
 
-SomeClass.new.slow_operation
-```
+class Sub < Parent
+  include DebugIt
 
+  def run
+    puts "Sub"
+    super
+  end
+end
 ```
-slow_operation starting...
-doing something slow....
-slow_operation completed
+]
+
+--
+
+.pull-right-wide[
+Sub is a class with the buggy run method...
+]
+
+--
+
+.pull-right-wide[
+
+```ruby
+irb(main):01:0> Sub.new.run
+
+Sub
+DebugIt
+Parent
 ```
+]
+
+--
+
+.pull-right-wide[
+```ruby
+irb(main):002:0> Sub.ancestors
+
+=> [Sub, DebugIt, Parent, Object, Kernel, BasicObject]
+```
+]
+
+--
+.pull-right-wide[
+## UGH!!!
+We want run from DebugIt to be called first!
+]
+
+
+---
+# Module#prepend
+
+#### Using `alias_method` hacks:
+
+.pull-left-narrow[
+```ruby
+class Parent
+  def run
+    puts "Parent"
+  end
+end
+
+class Sub < Parent
+  def run
+    puts "Sub"
+    super
+  end
+
+  def run_with
+    puts "DebugIt"
+    run_without
+  end
+
+  alias_method :run_without, :run
+  alias_method :run, :run_with
+end
+```
+]
+
+--
+
+.pull-right-wide[
+Sub is a class with the buggy run method...
+]
+
+--
+
+.pull-right-wide[
+
+```ruby
+irb(main):01:0> Sub.new.run
+
+DebugIt
+Sub
+Parent
+```
+]
+
+--
+
+.pull-right-wide[
+## YAY! But that's really nasty!
+]
+
+
+---
+# Module#prepend
+
+#### Using `prepend`:
+
+.pull-left-narrow[
+```ruby
+module DebugIt
+  def run
+    puts "DebugIt"
+    super
+  end
+end
+
+class Parent
+  def run
+    puts "Parent"
+  end
+end
+
+class Sub < Parent
+  prepend DebugIt
+
+  def run
+    puts "Sub"
+    super
+  end
+end
+```
+]
+
+--
+
+.pull-right-wide[
+
+```ruby
+irb(main):01:0> Sub.new.run
+
+DebugIt
+Sub
+Parent
+```
+]
+
+--
+
+.pull-right-wide[
+```ruby
+irb(main):002:0> Sub.ancestors
+
+=> [DebugIt, Sub, Parent, Object, Kernel, BasicObject]
+```
+]
+
+--
+.pull-right-wide[
+## Ship It!
+]
+
+
+
 
 ---
 # Array of symbols: %i and %I
