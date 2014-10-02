@@ -507,8 +507,6 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 
   * We have many binary string literals as constants for bytes for headers and other data elements
 
-  * The vm "fleecing" code is a big source of binary literal strings
-
   * Who knows what will happen in your code if you start appending binary strings to copies of UTF-8 strings...
 
   * Comparisons of these constants will fail if the binary string was converted to an invalid UTF-8 encoding:
