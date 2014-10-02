@@ -336,13 +336,13 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 
 * What's the problem?
 
-  * We have many binary literal strings as constants for bytes for headers and other data elements
+  * We have many binary string literals as constants for bytes for headers and other data elements
 
   * The vm "fleecing" code is a big source of binary literal strings
 
   * Who knows what will happen in your code if you start appending binary strings to copies of UTF-8 strings...
 
-  * Comparisons of these constants will fail if the binary string was converted to in invalid UTF-8 encoding:
+  * Comparisons of these constants will fail if the binary string was converted to an invalid UTF-8 encoding:
 
 --
 
@@ -356,11 +356,6 @@ irb(main):003:0> FOO.valid_encoding?
 irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 => false
 ```
-
-
-
-
-
 
 ---
 ## Ruby source files are encoded as UTF-8 by default
@@ -536,7 +531,7 @@ irb(main):002:0> FOO.encoding
 
 * We need guinea pigs to do it and document the process
 
-* Some developers may use rubymine, so we'll need to verify that process
+* Some developers may use rubymine, so that might require some configuration
 
 
 
