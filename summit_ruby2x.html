@@ -298,8 +298,8 @@ irb(main):001:0> %i{vmware redhat microsoft}
 --
 
 ```ruby
-irb(main):002:0> prefix = :vm_
-=> :vm_
+irb(main):002:0> prefix = "vm_"
+=> "vm_"
 
 irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 => [:vm_vmware, :vm_redhat, :vm_microsoft]
