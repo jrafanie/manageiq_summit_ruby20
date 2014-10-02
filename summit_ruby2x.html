@@ -322,36 +322,43 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 ---
 # Enumerable#lazy
 
-* Normally enumerable methods are eager and evaluate left to right:
-
---
-
-```ruby
-[1,2,3].sort.reverse.last => 1
-```
-
---
-
-* Sort will create an array
-
-* Reverse will create another array
-
----
-# Enumerable#lazy
+* Enumerable methods are eager and evaluate left to right
 
 * With lazy, chains of enumerations are evaluated right to left
 
 --
 
-```ruby
-[1,2,3].lazy.sort.reverse.last => 1
+* When possible, ruby will "cheat" by knowing what's in the chain of enumerations
+
+  * It can skip creating intermediate arrays
+
+  * Operations over large collections may be optimized
+
+
+---
+# Enumerable#lazy
+
+Our script:
+
+
+```sh
+require 'benchmark/ips'
+
+Benchmark.ips do |x|
+  x.report("normal") { (0...1000).select(&:odd?).take(5) }
+  x.report("lazy")   { (0...1000).lazy.select(&:odd?).take(5) }
+end
 ```
-
-* It won't create intermediate arrays
-
 --
 
-* Expensive operations in a loop could be "short-circuited" using lazy
+```
+Calculating -------------------------------------
+              normal      1553 i/100ms
+                lazy     13950 i/100ms
+-------------------------------------------------
+              normal    15240.9 (±2.3%) i/s -      77650 in   5.097710s
+                lazy   157416.8 (±4.0%) i/s -     795150 in   5.059386s
+```
 
 * See http://patshaughnessy.net/2013/4/3/ruby-2-0-works-hard-so-you-can-be-lazy
 
