@@ -82,9 +82,12 @@ class: left, top
 
 * Faster Rails startup
 
-* `__dir__` and `__callee__`
+* `__dir__`
+
+* `__callee__`
 
 * Much more...
+
 ---
 # Keyword arguments
 
@@ -385,6 +388,37 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 
 * This should improve worker startup on appliances
 
+
+---
+# `__dir__`
+
+* `__dir__` is the path of the running script without the filename
+
+  ```sh
+  # cat test.rb
+  puts __dir__
+  ```
+
+  ```sh
+  # ruby test.rb
+  /Users/joerafaniello/Code/test/test.rb
+  ```
+
+* No more `File.dirname(__FILE__)`!
+
+---
+
+# `__callee__`
+
+* `__callee__` provides the name of the calling method.
+
+* Similar to `__method__` but for the caller
+
+* No more `caller.first...` just to get the calling method
+
+---
+
+# Much more...see references...
 
 ---
 class: left, top
