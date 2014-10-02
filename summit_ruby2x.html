@@ -96,11 +96,11 @@ class: left, top
 ---
 # Module#prepend
 
-### Problem: We want to debug a slow or buggy method.
+### Problem: We want to debug a slow method.
 
 --
 
-* Let's inject a DebugIt module method so OUR method gets called first!
+* Let's wrap the method with a DebugIt module method that will run first!
 
 ---
 # Module#prepend
@@ -135,7 +135,7 @@ end
 
 --
 .pull-right-wide[
-Sub is a class with the buggy run method...
+Sub is a class with the slow run method...
 ]
 
 --
@@ -161,7 +161,7 @@ irb(main):002:0> Sub.ancestors
 
 --
 .pull-right-wide[
-## UGH, we want DebugIt's first!
+## UGH, Sub's method comes first!  We want DebugIt first.
 ]
 
 
@@ -198,7 +198,7 @@ end
 --
 
 .pull-right-wide[
-Sub is a class with the buggy run method...
+Sub is a class with the slow run method...
 ]
 
 --
