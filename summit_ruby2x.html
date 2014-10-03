@@ -35,7 +35,7 @@ class: center, middle
 # Upgrading to Ruby 2.x
 
 ---
-# Agenda
+## Agenda
 
 1. Why upgrade?
 
@@ -50,7 +50,7 @@ class: center, middle
 1. More information
 
 ---
-# Why upgrade?
+## Why upgrade?
 
 --
 
@@ -70,7 +70,7 @@ class: center, middle
 
 ---
 class: left, top
-# Ruby 2.0 features
+## Ruby 2.0 features
 
 * Keyword arguments
 
@@ -91,7 +91,7 @@ class: left, top
 * Much more...
 
 ---
-# Keyword arguments
+## Keyword arguments
 
 * Simplifies common method definition conventions:
 
@@ -103,7 +103,7 @@ class: left, top
 
 
 ---
-# Keyword arguments
+## Keyword arguments
 
 * Example: EmsVmware#vm_connect_all
 
@@ -133,7 +133,7 @@ end
 ```
 
 ---
-# Keyword arguments
+## Keyword arguments
 
 * Optionally changes the method definition, **not** the invocation
 
@@ -150,7 +150,7 @@ end
   ```
 
 ---
-# Keyword arguments
+## Keyword arguments
 
 * There are shortcomings and gotchas:
 
@@ -166,7 +166,7 @@ end
 
 
 ---
-# Module#prepend
+## Module#prepend
 
 #### Problem: We want to debug a slow method.
 
@@ -175,7 +175,7 @@ end
 * Let's wrap the slow method so we can log before the method is called!
 
 ---
-# Module#prepend
+## Module#prepend
 
 #### Using `include`:
 
@@ -240,7 +240,7 @@ Parent
 
 
 ---
-# Module#prepend
+## Module#prepend
 
 #### Using `alias_method` hacks:
 
@@ -297,7 +297,7 @@ Parent
 
 
 ---
-# Module#prepend
+## Module#prepend
 
 #### Using `prepend`:
 
@@ -357,7 +357,7 @@ Parent
 
 
 ---
-# Array of symbols: %i and %I
+## Array of symbols: %i and %I
 
 --
 
@@ -382,7 +382,7 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 
 
 ---
-# Refinements
+## Refinements
 
 * A mechanism to localize monkey patches so they don't infect other libraries
 
@@ -395,7 +395,7 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
     http://blog.headius.com/2012/11/refining-ruby.html
 
 ---
-# Enumerable#lazy
+## Enumerable#lazy
 
 * Enumerable methods are eager and evaluate left to right
 
@@ -411,7 +411,7 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 
 
 ---
-# Enumerable#lazy
+## Enumerable#lazy
 
 * Example benchmark
 
@@ -432,7 +432,7 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
   `=> [1, 3, 5, 7, 9]`
 
 ---
-# Enumerable#lazy
+## Enumerable#lazy
 
 
 ```ruby
@@ -458,8 +458,7 @@ Calculating -------------------------------------
 * See http://patshaughnessy.net/2013/4/3/ruby-2-0-works-hard-so-you-can-be-lazy
 
 ---
-
-# Faster Rails startup
+## Faster Rails startup
 
 * Optimizations were made to speed up 'require'
 
@@ -487,7 +486,7 @@ Calculating -------------------------------------
 
 
 ---
-# `__dir__`
+## `__dir__`
 
 * `__dir__` is the path of the running script without the filename
 
@@ -504,8 +503,7 @@ Calculating -------------------------------------
 * No more `File.dirname(__FILE__)`!
 
 ---
-
-# `__callee__`
+## `__callee__`
 
 * `__callee__` provides the name of the calling method.
 
@@ -628,7 +626,6 @@ irb(main):003:0> FOO.valid_encoding?
 ```
 
 ---
-
 ## Ruby source files are encoded as UTF-8 by default
 
 * What's the problem?
@@ -684,7 +681,6 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 ```
 
 ---
-
 ## Ruby source files are encoded as UTF-8 by default
 
 ### Solutions:
@@ -702,7 +698,6 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 * Add `String#b` method "extension" to ruby 1.9.3 to "bridge" us to 2.0.0
 
 ---
-
 ## Ruby source files are encoded as UTF-8 by default
 
 ### Solutions:
@@ -731,7 +726,6 @@ irb(main):002:0> FOO.encoding
 ```
 
 ---
-
 ## All descriptors except 0, 1, 2 are closed in child processes
 
 * Prevents file descriptor leakage
@@ -761,8 +755,7 @@ irb(main):002:0> FOO.encoding
 ```
 
 ---
-
-# String#lines returns an array
+## String#lines returns an array
 
 * Also String#chars, #bytes and #codepoints
 
@@ -796,9 +789,7 @@ irb(main):002:0> FOO.encoding
 
   * Restricts updating of bundler, thin, and a few other gems since we need them from rpms
 
-
 ---
-
 ## Building 2.0 appliances
 
 ### Solution
@@ -821,7 +812,6 @@ irb(main):002:0> FOO.encoding
 
 
 ---
-
 ## Developer setup
 
 * 2.0.0 is not much different from 1.9.3:
@@ -838,7 +828,7 @@ irb(main):002:0> FOO.encoding
 
 
 ---
-# More information
+## More information
 
 http://globaldev.co.uk/2013/03/ruby-2-0-0-in-detail/
 
