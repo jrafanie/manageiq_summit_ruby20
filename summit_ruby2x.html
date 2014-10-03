@@ -43,6 +43,10 @@ class: center, middle
 
 1. Ruby 2.0 breaking changes and deprecations
 
+1. "Fall cleanup" of old code
+
+1. Slow tests
+
 1. Building 2.0 appliances
 
 1. Developer setup
@@ -780,7 +784,34 @@ irb(main):002:0> FOO.encoding
 * See Pull #714
 
 ---
+## "Fall cleanup" of old code
 
+* host directory
+
+* soap4r/actionwebservice
+
+* old rails plugins
+
+* upgrading old gems
+
+
+---
+## Slow tests
+
+* Keep 1.9.3 compatibility while adding 2.0.0
+
+* Tests take 30+ minutes on CI servers
+
+  * Adding 2.0.0 and 2.1.0 == slow death
+
+* We need a strategy for:
+
+  * Separating tests
+
+  * Minimizing setup (database inserts)
+
+
+---
 ## Building 2.0 appliances
 
 * Our current community appliances use ruby 1.9.3 through SCL rpms
