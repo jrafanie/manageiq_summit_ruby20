@@ -595,9 +595,9 @@ Worker.new.respond_to?(:_run, true)
 irb(main):001:0> require './test'
 => true
 irb(main):002:0> FOO.encoding
-=> #<Encoding:ASCII-8BIT>
+*=> #<Encoding:ASCII-8BIT>
 irb(main):003:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
-=> true
+*=> true
 ```
 
 ---
@@ -622,11 +622,9 @@ irb(main):003:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 irb(main):001:0> require './test'
 => true
 irb(main):002:0> FOO.encoding
-=> #<Encoding:UTF-8>
+*=> #<Encoding:UTF-8>
 irb(main):003:0> FOO.valid_encoding?
-=> false
-irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
-=> false
+*=> false
 ```
 
 ---
@@ -651,7 +649,7 @@ irb(main):002:0> FOO.encoding
 irb(main):003:0> FOO.valid_encoding?
 => false
 irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
-=> false
+*=> false
 ```
 
 ---
@@ -669,7 +667,7 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 
 ```ruby
 # cat test.rb
-FOO = "\222dL\256".force_encoding("ASCII-8BIT")
+*FOO = "\222dL\256".force_encoding("ASCII-8BIT")
 ```
 
 --
@@ -691,17 +689,17 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 
 ### Solutions:
 
-* Use String#b on individual strings
+* Use `String#b` on individual strings
 
   * **Not** compatible with ruby 1.9.3
 
   * Returns a **copy** of the String in ASCII-8BIT encoding
 
-  * Note: String#force_encoding("ASCII-8BIT") modifies the encoding of the receiver
+  * Note: `String#force_encoding("ASCII-8BIT")` modifies the encoding of the receiver
 
 --
 
-* Add String#b method "extension" to ruby 1.9.3 to "bridge" us to 2.0.0
+* Add `String#b` method "extension" to ruby 1.9.3 to "bridge" us to 2.0.0
 
 ---
 
@@ -719,7 +717,7 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 
 ```ruby
 # cat test.rb
-# encoding: US-ASCII
+*# encoding: US-ASCII
 FOO = "\222dL\256"
 ```
 
@@ -750,12 +748,12 @@ irb(main):002:0> FOO.encoding
 
 --
 
-```diff
+```ruby
      reader, writer = IO.pipe
      writerfd = writer.fileno
      my_env["WRITER_FD"] = writerfd.to_s
 +
-+    writer.close_on_exec = false
+*+    writer.close_on_exec = false
 +
      pid = Kernel.spawn(my_env, "ruby #{SERVER_PATH}VixDiskLibServer.rb",
                         [:out, :err]     => [LOG_FILE, "a"],
@@ -772,14 +770,14 @@ irb(main):002:0> FOO.encoding
 
 * Above methods are deprecated for StringIO, IO and friends
 
-* Use #each_line instead:
+* `StringIO#lines` deprecated, so use `#each_line` instead:
 
 --
 
 ```diff
            @log_stream.rewind
 -          lines = @log_stream.lines.to_a
-+          lines = @log_stream.each_line.to_a
+*+          lines = @log_stream.each_line.to_a
            lines.length.should == 1
            line = lines.first.chomp
 ```
