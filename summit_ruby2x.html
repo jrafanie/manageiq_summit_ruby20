@@ -193,7 +193,7 @@ class Parent
 end
 
 class Sub < Parent
-  include DebugIt
+* include DebugIt
 
   def run
     puts "Sub"
@@ -210,24 +210,26 @@ Sub is a class with the slow run method...
 
 --
 .pull-right-wide[
-
-```ruby
-irb(main):01:0> Sub.new.run
-
-Sub
-DebugIt
-Parent
-```
-]
-
---
-.pull-right-wide[
 ```ruby
 irb(main):002:0> Sub.ancestors
 
 => [Sub, DebugIt, Parent, Object, Kernel, BasicObject]
 ```
 ]
+
+--
+.pull-right-wide[
+
+```ruby
+irb(main):01:0> Sub.new.run
+
+Sub
+*DebugIt
+Parent
+```
+]
+
+
 
 --
 .pull-right-wide[
@@ -254,13 +256,13 @@ class Sub < Parent
     super
   end
 
-  def run_with
+* def run_with
     puts "DebugIt"
-    run_without
+*   run_without
   end
 
-  alias_method :run_without, :run
-  alias_method :run, :run_with
+* alias_method :run_without, :run
+* alias_method :run, :run_with
 end
 ```
 ]
@@ -278,7 +280,7 @@ Sub is a class with the slow run method...
 ```ruby
 irb(main):01:0> Sub.new.run
 
-DebugIt
+*DebugIt
 Sub
 Parent
 ```
@@ -288,6 +290,7 @@ Parent
 
 .pull-right-wide[
 ## YAY! But that's really dirty!
+## (alias_method_chain)
 ]
 
 
@@ -312,31 +315,17 @@ class Parent
 end
 
 class Sub < Parent
-  prepend DebugIt
+* prepend DebugIt
 
   def run
     puts "Sub"
-    super
+*   super
   end
 end
 ```
 ]
 
 --
-
-.pull-right-wide[
-
-```ruby
-irb(main):01:0> Sub.new.run
-
-DebugIt
-Sub
-Parent
-```
-]
-
---
-
 .pull-right-wide[
 ```ruby
 irb(main):002:0> Sub.ancestors
@@ -347,9 +336,21 @@ irb(main):002:0> Sub.ancestors
 
 --
 .pull-right-wide[
-* We only added `prepend` to the class
-* Don't forget to call `super`!
-* Ship it!
+
+```ruby
+irb(main):01:0> Sub.new.run
+
+*DebugIt
+Sub
+Parent
+```
+]
+
+
+--
+.pull-right-wide[
+#### Ship it!
+#### ... but don't forget to call `super`!
 ]
 
 
