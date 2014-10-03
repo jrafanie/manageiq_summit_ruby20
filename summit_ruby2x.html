@@ -547,6 +547,8 @@ Calculating -------------------------------------
 class: left, top
 ## Ruby 2.0 breaking changes and deprecations
 
+####Note: We're **green** on travis, so we're getting close...
+
 * Objects don't `respond_to?` to protected methods
 
 * UTF-8 is now the default character encoding of ruby scripts
@@ -812,6 +814,12 @@ irb(main):002:0> FOO.encoding
 * See Pull #714
 
 ---
+
+class: center, middle
+# Ok, great, but are we there yet???
+
+
+---
 ## "Fall cleanup" of old code
 
 * host directory
@@ -842,16 +850,33 @@ irb(main):002:0> FOO.encoding
 ---
 ## Building 2.0 appliances
 
-* Our current community appliances use ruby 1.9.3 through SCL rpms
+* Verified Ruby 2.0 on CentOS appliance:
+
+  * Appliance startup
+
+  * SmartState Analysis "fleecing" using vddk
+
+  * vCenter inventory
+
+  * Basic reporting
+
+
+---
+## Building 2.0 appliances
+
+* Now, we need to automate building ruby 2.0
+
+* We currenlty use ruby 1.9.3 through SCL rpms
 
   * Not multi-platform
 
   * Restricts updating of bundler, thin, and a few other gems since we need them from rpms
 
+
 ---
 ## Building 2.0 appliances
 
-### Solution
+Solution:
 
 * rpms for base OS CentOS + those required to build ruby and compiled gems
 
@@ -889,8 +914,16 @@ irb(main):002:0> FOO.encoding
 ---
 ## More information
 
+2.0 open issues:
+https://github.com/ManageIQ/manageiq/labels/ruby%202
+
+2.0 closed issues:
+https://github.com/ManageIQ/manageiq/issues?q=label%3A%22ruby+2%22+is%3Aclosed
+
+2.0 in depth:
 http://globaldev.co.uk/2013/03/ruby-2-0-0-in-detail/
 
+2.1 in depth:
 http://globaldev.co.uk/2014/05/ruby-2-1-in-detail/
 
 ---
