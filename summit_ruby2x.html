@@ -15,6 +15,15 @@
       }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
 
+      .inverse {
+        background: #272833;
+        color: #777900;
+      }
+      .inverse h1, .inverse h2, .inverse h3, .inverse h4 {
+        color: #f2f2f2;
+        line-height: 0.8em;
+      }
+
       .pull-left-narrow {
         float: left;
         width: 35%;
@@ -27,14 +36,31 @@
         clear: both;
       }
 
+      .footnote {
+        text-align: right;
+        position: absolute;
+        bottom: 3em;
+        right: 3em;
+      }
+
     </style>
   </head>
   <body onload="var slideshow = remark.create();">
     <textarea id="source">
-class: center, middle
-# Upgrading to Ruby 2.x
+layout: true
+class: center, middle, inverse
+---
+#Upgrading to Ruby 2.x
+
+.footnote[
+###Joe Rafaniello
+
+###@jrafanie
+]
+
 
 ---
+layout: false
 ## Agenda
 
 1. Why upgrade?
