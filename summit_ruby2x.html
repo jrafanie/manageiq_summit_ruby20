@@ -93,6 +93,76 @@ class: left, top
 ---
 # Keyword arguments
 
+* Simplifies common method definition conventions:
+
+  * Accessing option hash values
+
+  * Default hash values
+
+* Keyword arguments are optional and can't handle all cases
+
+
+---
+# Keyword arguments
+
+* Example: EmsVmware#vm_connect_all
+
+```ruby
+def vm_connect_all(vm, options={})
+* defaults = { :onStartup => false }
+* options  = defaults.merge(options)
+  vm_connect_disconnect_all_connectable_devices(
+    vm,
+    true,
+*   options[:onStartup],
+*   options[:user_event]
+  )
+end
+
+```
+
+
+--
+
+* With keyword arguments:
+
+```ruby
+def vm_connect_all(vm, user_event: nil, onStartup: false)
+  vm_connect_disconnect_all_connectable_devices(vm, true, onStartup, user_event)
+end
+```
+
+---
+# Keyword arguments
+
+* Optionally changes the method definition, **not** the invocation
+
+* All are valid on 1.9.3 and 2.0.0:
+
+  ```ruby
+  vm_connect_all(:vm_object1, :onStartup  => true, :user_event => "event1")
+
+  vm_connect_all(:vm_object2)
+
+  vm_connect_all(:vm_object3, :user_event => "event3")
+
+  vm_connect_all(:vm_object3, user_event: "event3")
+  ```
+
+---
+# Keyword arguments
+
+* There are shortcomings and gotchas:
+
+  * `if` as a hash key is valid, but **not** as a keyword argument
+
+  * http://magazine.rubyist.net/?Ruby200SpecialEn-kwarg
+
+  * http://robots.thoughtbot.com/ruby-2-keyword-arguments
+
+  * http://chriszetter.com/blog/2012/11/02/keyword-arguments-in-ruby-2-dot-0/
+
+
 ---
 # Module#prepend
 
