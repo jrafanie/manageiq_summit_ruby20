@@ -168,11 +168,11 @@ end
 ---
 # Module#prepend
 
-### Problem: We want to debug a slow method.
+#### Problem: We want to debug a slow method.
 
 --
 
-* Let's wrap the method with a DebugIt module method that will run first!
+* Let's wrap the slow method so we can log before the method is called!
 
 ---
 # Module#prepend
@@ -235,7 +235,7 @@ Parent
 
 --
 .pull-right-wide[
-## UGH, Sub's method comes first!  We want DebugIt first.
+### UGH, Sub's method comes first!
 ]
 
 
@@ -291,8 +291,8 @@ Parent
 --
 
 .pull-right-wide[
-## YAY! But that's really dirty!
-## (alias_method_chain)
+### YAY! But that's really dirty!
+### (alias_method_chain)
 ]
 
 
