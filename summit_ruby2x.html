@@ -579,14 +579,14 @@ class: left, top
 class Worker
   protected
 
-  def _run
+  def run
   end
 end
 ```
 
 --
 ```ruby
-Worker.new.respond_to?(:_run)
+Worker.new.respond_to?(:run)
 1.9.3 => true
 *2.0.0 => false
 ```
@@ -594,7 +594,7 @@ Worker.new.respond_to?(:_run)
 --
 Pass true as a second argument to include protected methods
 ```ruby
-Worker.new.respond_to?(:_run, true)
+Worker.new.respond_to?(:run, true)
 1.9.3 => true
 2.0.0 => true
 ```
