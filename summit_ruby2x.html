@@ -338,7 +338,7 @@ Parent
 module DebugIt
   def run
     puts "DebugIt"
-    super
+*   super
   end
 end
 
@@ -353,7 +353,7 @@ class Sub < Parent
 
   def run
     puts "Sub"
-*   super
+    super
   end
 end
 ```
