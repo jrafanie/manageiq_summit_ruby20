@@ -551,7 +551,7 @@ class: left, top
 
 * Objects don't `respond_to?` to protected methods
 
-* UTF-8 is now the default character encoding of ruby scripts
+* UTF-8 is the default character encoding of ruby scripts
 
 * All descriptors except 0, 1, 2 are closed in child processes
 
@@ -604,7 +604,7 @@ Worker.new.respond_to?(:_run, true)
 * See Pull #685 - default_value_for gem
 
 ---
-## Ruby source files are encoded as UTF-8 by default
+## UTF-8 is the default character encoding of ruby scripts
 
   ```
   # cat test.rb
@@ -629,11 +629,11 @@ irb(main):001:0> require './test'
 irb(main):002:0> FOO.encoding
 *=> #<Encoding:ASCII-8BIT>
 irb(main):003:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
-*=> true
+=> true
 ```
 
 ---
-## Ruby source files are encoded as UTF-8 by default
+## UTF-8 is the default character encoding of ruby scripts
 
   ```
   # cat test.rb
@@ -660,7 +660,7 @@ irb(main):003:0> FOO.valid_encoding?
 ```
 
 ---
-## Ruby source files are encoded as UTF-8 by default
+## UTF-8 is the default character encoding of ruby scripts
 
 * What's the problem?
 
@@ -684,7 +684,7 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 ```
 
 ---
-## Ruby source files are encoded as UTF-8 by default
+## UTF-8 is the default character encoding of ruby scripts
 
 ### Solutions:
 
@@ -715,7 +715,7 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 ```
 
 ---
-## Ruby source files are encoded as UTF-8 by default
+## UTF-8 is the default character encoding of ruby scripts
 
 ### Solutions:
 
@@ -732,7 +732,7 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 * Add `String#b` method "extension" to ruby 1.9.3 to "bridge" us to 2.0.0
 
 ---
-## Ruby source files are encoded as UTF-8 by default
+## UTF-8 is the default character encoding of ruby scripts
 
 ### Solutions:
 
