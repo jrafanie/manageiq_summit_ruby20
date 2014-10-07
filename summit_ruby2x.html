@@ -124,7 +124,30 @@ layout: false
 
   - Ruby 2.2.0 is scheduled for a Christmas release
 
-* Ruby 2.0.0 is our bridge to a much improved garbage collector and allocation tracking in 2.1.0
+
+---
+## Why upgrade? ... Because ruby 2.1!
+
+* Generational mark and sweep garbage collector
+
+  * Less time spent in GC
+
+* String#freeze - reuse String objects
+
+  * Less objects == less memory == less GC time
+
+* Object allocation tracing / real allocation profiling
+
+* Method cache invalidation local to the affected class hierarchy
+
+* More...
+
+
+---
+class: center, middle
+
+# But that's 2.1, let's get to 2.0 first...
+
 
 ---
 class: left, top
