@@ -611,7 +611,8 @@ Worker.new.respond_to?(:run)
 ```
 
 --
-Pass true as a second argument to include protected methods
+Pass true as second argument...
+
 ```ruby
 Worker.new.respond_to?(:run, true)
 1.9.3 => true
@@ -665,7 +666,7 @@ irb(main):002:0> FOO.encoding
 
 --
 
-* Binary string literals become UTF-8 even if it's invalid:
+* Binary string literals become UTF-8 even if **invalid**:
 
 ```ruby
 irb(main):001:0> require './test'
@@ -681,9 +682,9 @@ irb(main):003:0> FOO.valid_encoding?
 
 ### So, what's the problem?
 
-  * Binary strings are used as constants for bytes for low level headers and other data elements
+  * Binary strings are used in many places for vm "fleecing"
 
-  * Encoded as an invalid UTF-8 strings, they will not pass equality checks:
+  * Invalid UTF-8 encoded strings != raw binary:
 
 --
 
@@ -703,7 +704,7 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 
   * 1.9.3/2.0.0 compatible
 
-  * But, painful to do this on all binary strings
+  * Painful on files with many binary string literals
 
 --
 
@@ -734,24 +735,21 @@ irb(main):004:0> FOO == "\222dL\256".force_encoding("ASCII-8BIT")
 
   * **Not** compatible with ruby 1.9.3
 
-  * Returns a **copy** of the String in ASCII-8BIT encoding
+  * **Copies** the String in ASCII-8BIT encoding
 
-  * Note: `String#force_encoding("ASCII-8BIT")` modifies the encoding of the receiver
+  * Note: `String#force_encoding("ASCII-8BIT")` **modifies** the receiver
 
---
-
-* Add `String#b` method "extension" to ruby 1.9.3 to "bridge" us to 2.0.0
 
 ---
 ## UTF-8 is the default character encoding of ruby scripts
 
 ### Solutions:
 
-* Add #encoding magic comment to the top of the script
+* Add #encoding magic comment at top
 
   * 1.9.3/2.0.0 compatible
 
-  * Good option for scripts where binary strings are used as CONSTANTS
+  * Good option when binary strings are expected
 
 --
 
@@ -771,7 +769,7 @@ irb(main):002:0> FOO.encoding
 ```
 
 ---
-## All descriptors except 0, 1, 2 are closed in child processes
+## Descriptors except 0, 1, 2 are closed in child processes
 
 * Prevents file descriptor leakage
 
@@ -779,13 +777,11 @@ irb(main):002:0> FOO.encoding
 
 --
 
-* For vddk vm scanning, we need a pipe to communite the DRb server's URI
+* Example: shared pipe to communicate data between two processes
 
 --
 
 * Use IO#close_on_exec = false
-
---
 
 ```ruby
      reader, writer = IO.pipe
@@ -804,13 +800,13 @@ irb(main):002:0> FOO.encoding
 
 * Also String#chars, #bytes and #codepoints
 
-* Previously, they returned enumerators
+* Previously, returned enumerators
 
-* Above methods are deprecated for StringIO, IO and friends
-
-* `StringIO#lines` deprecated, so use `#each_line` instead:
+* Above are deprecated for StringIO, IO and friends
 
 --
+
+* `StringIO#lines` deprecated, so use `#each_line` instead:
 
 ```diff
            @log_stream.rewind
