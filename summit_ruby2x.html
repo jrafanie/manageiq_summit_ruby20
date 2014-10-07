@@ -714,9 +714,9 @@ irb(main):003:0> FOO.valid_encoding?
 
 ### So, what's the problem?
 
-  * We have many binary string literals as constants for bytes for low level headers and other data elements
+  * Binary strings are used as constants for bytes for low level headers and other data elements
 
-  * These strings, encoded as an invalid UTF-8 string will not pass equality tests
+  * Encoded as an invalid UTF-8 strings, they will not pass equality checks:
 
 --
 
