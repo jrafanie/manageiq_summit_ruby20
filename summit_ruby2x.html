@@ -443,14 +443,15 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 ---
 ## Refinements
 
-* A mechanism to localize monkey patches so they don't infect other libraries
+* Goal: localize monkey patches
 
 * I'm not going to explain them because:
-  * They have so many gotchas...
 
-  * Freedom patching is good... as long as you have tests
+  * Ruby's open classes
 
-  * Charles Nutter(@headius/jruby guy) does it better:
+  * Many gotchas...
+
+  * See Charles Nutter (@headius/jruby guy) explanation:
     http://blog.headius.com/2012/11/refining-ruby.html
 
 ---
