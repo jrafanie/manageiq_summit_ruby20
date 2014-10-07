@@ -130,13 +130,13 @@ layout: false
 
 * Generational mark and sweep garbage collector
 
-  * Less time spent in GC
+  * Less GC time
 
 * String#freeze - reuse String objects
 
   * Less objects == less memory == less GC time
 
-* Object allocation tracing / real allocation profiling
+* Object allocation tracing
 
 * Method cache invalidation local to the affected class hierarchy
 
@@ -145,42 +145,23 @@ layout: false
 
 ---
 class: center, middle
-
-# But that's 2.1, let's get to 2.0 first...
+## But that's 2.1, let's get to 2.0 first...
 
 
 ---
-class: left, top
+class: center, middle
 ## Ruby 2.0 features
-
-* Keyword arguments
-
-* Module#prepend
-
-* Array of symbols: %i and %I
-
-* Refinements
-
-* Enumerable#lazy
-
-* Faster Rails startup
-
-* `__dir__`
-
-* `__callee__`
-
-* Much more...
 
 ---
 ## Keyword arguments
 
-* Simplifies common method definition conventions:
+* Simplifies conventions:
 
   * Accessing option hash values
 
   * Default hash values
 
-* Keyword arguments are optional and can't handle all cases
+* Optional / can't handle all cases
 
 
 ---
@@ -216,9 +197,9 @@ end
 ---
 ## Keyword arguments
 
-* Optionally changes the method definition, **not** the invocation
+* Invoking methods **not** changed
 
-* All are valid on 1.9.3 and 2.0.0:
+* Valid on 1.9.3 / 2.0.0:
 
   ```ruby
   vm_connect_all(:vm_object1, :onStartup  => true, :user_event => "event1")
@@ -233,9 +214,9 @@ end
 ---
 ## Keyword arguments
 
-* There are shortcomings and gotchas:
+* Shortcomings and gotchas:
 
-  * `if` as a hash key is valid, but **not** as a keyword argument
+  * `if` - valid hash key / invalid keyword argument
 
   * **Required** keyword arguments added in 2.1
 
@@ -253,7 +234,7 @@ end
 
 --
 
-* Let's wrap the slow method so we can log before the method is called!
+* Wrap the method so can time it!
 
 ---
 ## Module#prepend
