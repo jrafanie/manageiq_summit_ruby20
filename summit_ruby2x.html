@@ -894,18 +894,17 @@ class: center, middle
 ---
 ## Slow tests
 
-* Keep 1.9.3 compatibility while adding 2.0.0
+#### Tests take 30+ minutes on CI servers
 
-* Tests take 30+ minutes on CI servers
+* Separate tests
 
-  * Adding 2.0.0 and 2.1.0 == slow death
+* Minimizing setup (database inserts)
 
-* We need a strategy for:
+* Remove invalid/not useful/duplicate tests
 
-  * Separating tests
+* Allocation tracing with ruby 2.1
 
-  * Minimizing setup (database inserts)
-
+* Cut support for 1.9.3 when 2.0 is stable
 
 ---
 ## Building 2.0 appliances
