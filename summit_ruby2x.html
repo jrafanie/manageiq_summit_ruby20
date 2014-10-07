@@ -923,13 +923,15 @@ class: center, middle
 ---
 ## Building 2.0 appliances
 
-* Now, we need to automate building ruby 2.0
+* Goal: automate building ruby 2.0 CentOS Appliances
 
-* We currenlty use ruby 1.9.3 through SCL rpms
+* We currently use ruby 1.9.3 through SCL rpms
 
   * Not multi-platform
 
   * Restricts updating of bundler, thin, and a few other gems since we need them from rpms
+
+  * Ruby 2.1 is not yet packaged as SCL rpms
 
 
 ---
@@ -937,7 +939,7 @@ class: center, middle
 
 ### Solution:
 
-* rpms for base OS CentOS
+* rpms for base CentOS OS
 
 * rpms needed to build ruby and compiled gems
 
