@@ -239,6 +239,62 @@ end
 ---
 ## Module#prepend
 
+#### Using `alias_method` hacks:
+
+.pull-left-narrow[
+```ruby
+class Parent
+  def run
+    puts "Parent"
+  end
+end
+
+class Sub < Parent
+  def run
+    puts "Sub"
+    super
+  end
+
+* def run_with
+    puts "DebugIt"
+*   run_without
+  end
+
+* alias_method :run_without, :run
+* alias_method :run, :run_with
+end
+```
+]
+
+--
+
+.pull-right-wide[
+Sub is a class with the slow run method...
+]
+
+--
+
+.pull-right-wide[
+
+```ruby
+irb(main):01:0> Sub.new.run
+
+*DebugIt
+Sub
+Parent
+```
+]
+
+--
+
+.pull-right-wide[
+### YAY! But that's really dirty!
+### (alias_method_chain)
+]
+
+---
+## Module#prepend
+
 #### Using `include`:
 
 .pull-left-narrow[
@@ -293,68 +349,9 @@ Parent
 ```
 ]
 
-
-
 --
 .pull-right-wide[
 ### UGH, Sub's method comes first!
-]
-
-
----
-## Module#prepend
-
-#### Using `alias_method` hacks:
-
-.pull-left-narrow[
-```ruby
-class Parent
-  def run
-    puts "Parent"
-  end
-end
-
-class Sub < Parent
-  def run
-    puts "Sub"
-    super
-  end
-
-* def run_with
-    puts "DebugIt"
-*   run_without
-  end
-
-* alias_method :run_without, :run
-* alias_method :run, :run_with
-end
-```
-]
-
---
-
-.pull-right-wide[
-Sub is a class with the slow run method...
-]
-
---
-
-.pull-right-wide[
-
-```ruby
-irb(main):01:0> Sub.new.run
-
-*DebugIt
-Sub
-Parent
-```
-]
-
---
-
-.pull-right-wide[
-### YAY! But that's really dirty!
-### (alias_method_chain)
 ]
 
 
