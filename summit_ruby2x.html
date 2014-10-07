@@ -849,7 +849,7 @@ class: center, middle
 ---
 ## Slow tests
 
-#### Tests take 30+ minutes on CI servers
+### Tests take 30+ minutes on CI servers
 
 * Separate tests
 
@@ -864,7 +864,7 @@ class: center, middle
 ---
 ## Building 2.0 appliances
 
-* Verified Ruby 2.0 on CentOS appliance:
+### Verified Ruby 2.0 on CentOS appliance:
 
   * Appliance startup
 
@@ -878,13 +878,13 @@ class: center, middle
 ---
 ## Building 2.0 appliances
 
-* Goal: automate building ruby 2.0 CentOS Appliances
+### Goal: automate building ruby 2.0 on CentOS
 
 * We currently use ruby 1.9.3 through SCL rpms
 
   * Not multi-platform
 
-  * Restricts updating of bundler, thin, and a few other gems since we need them from rpms
+  * Restricts updating of some gems
 
   * Ruby 2.1 is not yet packaged as SCL rpms
 
@@ -902,7 +902,7 @@ class: center, middle
 
 --
 
-* Install ruby-install or ruby-build for building and rebuilding ruby
+* Use ruby-install or ruby-build for building ruby
 
   * https://github.com/postmodern/ruby-install
 
@@ -910,7 +910,7 @@ class: center, middle
 
 --
 
-* Let bundler handle dependency resolution and installing gems
+* Let bundler handle what it does well...
 
 
 ---
@@ -922,7 +922,7 @@ class: center, middle
 
   * Manage with rvm, rbenv, or chruby
 
-* We need guinea pigs to do it and document any issues
+* Need guinea pigs to try it and document any issues
 
 * Others tools, such as rubymine, may require some configuration
 
