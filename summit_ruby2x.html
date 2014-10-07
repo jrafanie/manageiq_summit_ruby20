@@ -457,17 +457,17 @@ irb(main):003:0> %I{#{prefix}vmware #{prefix}redhat #{prefix}microsoft}
 ---
 ## Enumerable#lazy
 
-* Enumerable methods are eager and evaluate left to right
+* Enumerable methods evaluate left to right
 
 * With lazy, chains of enumerations are evaluated right to left
 
 --
 
-* When possible, ruby "cheats":
+* Ruby may "cheat":
 
-  * It can skip creating intermediate objects such as arrays
+  * May skip creating intermediate objects
 
-  * Operations over large collections may be optimized
+  * Large collection operations may be optimized
 
 
 ---
