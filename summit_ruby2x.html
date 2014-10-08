@@ -236,6 +236,35 @@ class: center, middle
 ## Ruby 2.0 features
 
 ---
+## Faster Rails startup
+
+* Optimizations were made to speed up 'require'
+
+--
+
+  ```
+  (master) (1.9.3-p545) + time bundle exec rake environment
+  bundle exec rake environment  3.51s user 0.63s system 99% cpu 4.148 total
+  ```
+
+  ```
+  (master) (2.0.0-p576) + time bundle exec rake environment
+  bundle exec rake environment  2.60s user 0.53s system 99% cpu 3.132 total
+
+  ```
+--
+
+* 25% faster loading of rails environment!
+
+--
+
+* Most obvious when:
+
+  * Running tests
+
+  * Loading Rails console
+
+---
 ## Keyword arguments
 
 * Simplifies conventions:
@@ -599,35 +628,6 @@ Calculating -------------------------------------
 ```
 
 * See http://patshaughnessy.net/2013/4/3/ruby-2-0-works-hard-so-you-can-be-lazy
-
----
-## Faster Rails startup
-
-* Optimizations were made to speed up 'require'
-
---
-
-  ```
-  (master) (1.9.3-p545) + time bundle exec rake environment
-  bundle exec rake environment  3.51s user 0.63s system 99% cpu 4.148 total
-  ```
-
-  ```
-  (master) (2.0.0-p576) + time bundle exec rake environment
-  bundle exec rake environment  2.60s user 0.53s system 99% cpu 3.132 total
-
-  ```
---
-
-* 25% faster loading of rails environment!
-
---
-
-* Most obvious when:
-
-  * Running tests
-
-  * Loading Rails console
 
 
 ---
