@@ -89,7 +89,11 @@ layout: false
 
 ## Agenda
 
+1. History
+
 1. Why upgrade?
+
+1. Ruby 2.1
 
 1. Ruby 2.0 features
 
@@ -108,21 +112,44 @@ layout: false
 1. Questions?
 
 ---
+## History
+
+
+#### Tue Nov 1 2011:
+
+First ruby 1.8.7 -> 1.9.3 related commit on ManageIQ
+
+--
+
+#### Tue Apr 23 2013:
+
+Ruby 1.9.3 finally...
+
+--
+
+#### 540 days???
+
+
+---
 ## Why upgrade?
 
 --
 
 ### We're behind!!!
 
-  - Support for Ruby 1.9.3 will end on February 23, 2015
+* Ruby 1.9.3 is ending
 
-  - Ruby 2.0.0 was released nearly 20 months ago
+  * In maintenance until February 23, 2014
 
-  - Ruby 2.1.0 was released nearly 10 months ago
+  * Security **only** mode until February 23, 2015
 
-  - Ruby 2.1.3 was just released on September 19
+* Ruby 2.0.0 is nearly 20 months old
 
-  - Ruby 2.2.0 is scheduled for a Christmas release
+* Ruby 2.1.0 is nearly 10 months old
+
+* Ruby 2.1.3 was released a few weeks ago
+
+* Ruby 2.2.0 is scheduled for a Christmas release
 
 
 ---
@@ -130,7 +157,7 @@ layout: false
 
 * Generational mark and sweep garbage collector
 
-  * Less GC time
+  * http://tmm1.net/ruby21-rgengc/
 
 * String#freeze - reuse String objects
 
@@ -138,10 +165,62 @@ layout: false
 
 * Object allocation tracing
 
-* Method cache invalidation local to the affected class hierarchy
+  * http://tmm1.net/ruby21-objspace/
+
+  * https://github.com/srawlins/allocation_stats
 
 * More...
 
+
+---
+## Why upgrade? ... Because ruby 2.1!
+
+### Useless benchmark
+
+`bundle exec rspec spec/models/ems_refresh/refreshers`
+
+**1.9.3-p545**
+```
+70.85s user 2.23s system 96% cpu 1:15.98 total
+71.21s user 2.22s system 96% cpu 1:16.27 total
+```
+
+--
+
+**2.0.0-p576**
+```
+54.02s user 2.03s system 95% cpu 58.980 total
+49.96s user 2.14s system 94% cpu 54.923 total
+```
+
+--
+
+**2.1.3**
+```
+36.52s user 2.79s system 91% cpu 42.930 total
+35.68s user 2.22s system 92% cpu 40.768 total
+```
+
+---
+## Why upgrade? ... Because ruby 2.1!
+
+### Example allocation information:
+
+* Line number
+
+* Number of allocations by object type
+
+Such as:
+
+* Running: ./spec/controllers/application_controller/buttons_spec.rb:91
+
+* 223730 Arrays @ .../activerecord/lib/active_record/result.rb:35
+
+* 203280 Strings @ .../activerecord/lib/active_record/relation.rb:27
+
+--
+
+#### See Issue 241 and 762
 
 ---
 class: center, middle
